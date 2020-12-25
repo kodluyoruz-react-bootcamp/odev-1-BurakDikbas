@@ -1,20 +1,17 @@
-
-
-import axios from "axios";
+const axios = require("axios");
 
 const ENDPOINT = "https://jsonplaceholder.typicode.com";
 
-
-
-
-async function getData() {
+async function getData(userId) {
 	try {
-        const { data: userid } = await axios.get(`${ENDPOINT}/users/1`);
-        const { data: posts } = await axios.get(`${ENDPOINT}/posts/1`)
-		console.log(userid,posts);
+        const { data: user } = await axios.get(`${ENDPOINT}/users/${userId}`);
+        const { data: posts } = await axios.get(`${ENDPOINT}/posts/?userId=${user.id}`)
+		user=[...user, posts];
+		// user["posts"]=posts;
+		return user;
 	} catch (e) {
 		console.log(e);
 	}
 }
 
-getData();
+export default getData;
